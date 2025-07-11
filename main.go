@@ -8,7 +8,12 @@ import (
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/index.html"))
-	tmpl.Execute(w, nil)
+	err := tmpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		fmt.Println("Error executing template:", err)
+		return
+	}
 }
 
 func main() {
